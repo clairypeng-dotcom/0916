@@ -1,246 +1,569 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>彭絜 | Personal Space & Live Clock</title>
-  <meta name="description" content="彭絜的個人空間與即時時鐘 - Personal space featuring real-time clock, personalized greeting, and profile.">
+  <meta name="description" content="Personal portfolio of Pengjie - Full-Stack Developer showcasing projects, technical skills, interactive cyberpunk particles, and a real-time JavaScript clock.">
+  <meta name="keywords" content="Pengjie, Portfolio, Full-Stack Developer, Web Developer, JavaScript, Frontend, Real-Time Clock, Cyberpunk, GitHub Pages">
+  <meta name="author" content="Pengjie">
+
+  <!-- Open Graph / Social Sharing -->
+  <meta property="og:title" content="Pengjie | Full-Stack Developer & Software Engineer">
+  <meta property="og:description" content="Explore my portfolio, skills, projects, dynamic real-time clock, and interactive profile.">
+  <meta property="og:type" content="website">
+
+  <title>彭絜 (Clairy Peng) | Full-Stack Developer & Software Engineer</title>
+
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body data-theme="violet">
-  <!-- Background glowing ambient mesh elements -->
-  <div class="ambient-glow glow-1"></div>
-  <div class="ambient-glow glow-2"></div>
-  <div class="ambient-glow glow-3"></div>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <div class="app-container">
-    <!-- Top Navigation / Control Bar -->
-    <header class="top-nav">
-      <div class="brand">
-        <div class="brand-badge">⚡ Live Hub</div>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+</head>
+<body>
+  <!-- Interactive Canvas Particle Background -->
+  <canvas id="particles-canvas" class="particles-canvas"></canvas>
+
+  <!-- Ambient background glow elements -->
+  <div class="glow-orb orb-1" aria-hidden="true"></div>
+  <div class="glow-orb orb-2" aria-hidden="true"></div>
+  <div class="glow-orb orb-3" aria-hidden="true"></div>
+
+  <!-- Navigation Header -->
+  <header class="header" id="header">
+    <div class="container header-container">
+      <a href="#about" class="brand-logo" id="brand-logo">
+        <span class="logo-symbol">&lt;/&gt;</span>
+        <span class="logo-text" id="nav-brand-name">彭絜</span>
+      </a>
+
+      <!-- Availability status badge -->
+      <div class="availability-badge" id="availability-badge">
+        <span class="pulse-dot"></span>
+        <span id="nav-status-text">Open to Opportunities</span>
       </div>
-      <div class="header-controls">
-        <div class="theme-picker" title="Select Accent Theme" id="themePicker">
-          <button class="theme-dot violet active" data-color="violet" aria-label="Violet Theme"></button>
-          <button class="theme-dot cyan" data-color="cyan" aria-label="Cyan Theme"></button>
-          <button class="theme-dot emerald" data-color="emerald" aria-label="Emerald Theme"></button>
-          <button class="theme-dot amber" data-color="amber" aria-label="Amber Theme"></button>
+
+      <!-- Desktop Navigation Menu -->
+      <nav class="nav-menu" id="nav-menu" aria-label="Main Navigation">
+        <ul class="nav-list">
+          <li><a href="#about" class="nav-link active" id="nav-about">About</a></li>
+          <li><a href="#clock" class="nav-link" id="nav-clock">Clock</a></li>
+          <li><a href="#skills" class="nav-link" id="nav-skills">Skills</a></li>
+          <li><a href="#projects" class="nav-link" id="nav-projects">Projects</a></li>
+          <li><a href="#contact" class="nav-link" id="nav-contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Nav Controls: Mini Clock, Particle Toggle & Theme Toggle -->
+      <div class="nav-actions">
+        <div class="nav-clock-pill" id="nav-mini-clock" title="Current Local Time">
+          <span class="clock-icon">⏱️</span>
+          <span id="nav-clock-text">--:--:--</span>
         </div>
-        <button class="btn-time-format" id="formatToggle" title="Toggle 12h / 24h format">
-          <span class="format-label" id="formatLabel">24H</span>
+
+        <!-- Particle toggle button -->
+        <button class="nav-icon-btn" id="particle-toggle-btn" aria-label="Toggle background particles" title="Toggle Particles Background">
+          <span id="particle-btn-icon">🌌</span>
+        </button>
+
+        <!-- Multi-Theme Toggle: Dark -> Cyberpunk -> Light -->
+        <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle Theme" title="Switch Theme (Dark / Cyberpunk / Light)">
+          <span class="theme-icon" id="theme-icon">🌙</span>
+          <span class="theme-name-tag" id="theme-name-tag">Dark</span>
+        </button>
+
+        <button class="hamburger-btn" id="nav-toggle" aria-label="Open mobile menu" aria-expanded="false">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
         </button>
       </div>
-    </header>
+    </div>
 
-    <!-- Main Content Grid -->
-    <main class="dashboard-grid">
-      <!-- Profile & Identity Card -->
-      <section class="card profile-card" id="profileCard">
-        <div class="avatar-wrapper">
-          <div class="avatar-ring"></div>
-          <div class="avatar-content">
-            <span class="avatar-initials" id="avatarInitials">彭</span>
-          </div>
-          <div class="status-indicator-dot" title="Online & Active"></div>
-        </div>
+    <!-- Mobile Drawer Navigation -->
+    <div class="mobile-drawer" id="mobile-drawer">
+      <ul class="mobile-nav-list">
+        <li><a href="#about" class="mobile-nav-link" id="m-nav-about">About</a></li>
+        <li><a href="#clock" class="mobile-nav-link" id="m-nav-clock">Live Clock</a></li>
+        <li><a href="#skills" class="mobile-nav-link" id="m-nav-skills">Skills</a></li>
+        <li><a href="#projects" class="mobile-nav-link" id="m-nav-projects">Projects</a></li>
+        <li><a href="#contact" class="mobile-nav-link" id="m-nav-contact">Contact</a></li>
+      </ul>
+      <div class="mobile-nav-actions">
+        <button class="btn btn-secondary btn-sm" id="m-btn-edit-profile">✏️ Edit Profile</button>
+      </div>
+    </div>
+  </header>
 
-        <div class="profile-info">
-          <div class="greeting-badge" id="greetingBadge">
-            <span class="greeting-icon" id="greetingIcon">👋</span>
-            <span class="greeting-text" id="greetingText">Good Day</span>
+  <main>
+    <!-- HERO / PROFILE SECTION -->
+    <section id="about" class="section hero-section">
+      <div class="container hero-container">
+        <div class="hero-content">
+          <!-- Dynamic Greeting Badge (Morning/Afternoon/Evening/Night) -->
+          <div class="hero-badge" id="greeting-badge">
+            <span class="badge-icon" id="greeting-icon">🌅</span>
+            <span id="greeting-text">Good day</span>, welcome to my digital space
           </div>
 
-          <div class="name-container">
-            <h1 class="user-name" id="userName" contenteditable="true" spellcheck="false" title="Click to edit your name">彭絜</h1>
-            <button class="edit-name-btn" id="editNameBtn" title="Click to edit your name" aria-label="Edit Name">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-              </svg>
-            </button>
-          </div>
-          
-          <p class="user-tagline" id="userTagline" contenteditable="true" spellcheck="false" title="Click to edit your title">
-            Creator • Developer • Thinker
+          <h1 class="hero-title">
+            Hi, I'm <span class="gradient-text" id="profile-name">彭絜 (Clairy)</span><br>
+            <span class="role-wrapper">
+              <span class="typed-text-role" id="profile-role">Full-Stack Developer</span>
+              <span class="typing-cursor">|</span>
+            </span>
+          </h1>
+
+          <p class="hero-description" id="profile-bio">
+            Passionate software engineer focused on architecting resilient web applications, intuitive user interfaces, and high-throughput systems. Dedicated to clean code, performance optimization, and continuous learning.
           </p>
 
-          <div class="status-pill">
-            <span class="pulse-dot"></span>
-            <span class="status-message">Available for projects & creative ideas</span>
-          </div>
-        </div>
-
-        <div class="card-footer-actions">
-          <button class="action-btn primary" id="copyEmailBtn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-            </svg>
-            <span id="copyEmailText">Copy Contact</span>
-          </button>
-          <a href="#links" class="action-btn secondary" id="quickLinkBtn">
-            <span>Explore Links</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="7" y1="17" x2="17" y2="7"></line>
-              <polyline points="7 7 17 7 17 17"></polyline>
-            </svg>
-          </a>
-        </div>
-      </section>
-
-      <!-- Real-Time Clock Card -->
-      <section class="card clock-card" id="clockCard">
-        <div class="clock-header">
-          <div class="clock-label">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"></circle>
-              <polyline points="12 6 12 12 16 14"></polyline>
-            </svg>
-            <span>Live Local Time</span>
-          </div>
-          <div class="live-pill">
-            <span class="live-beacon"></span>
-            <span>REAL-TIME</span>
-          </div>
-        </div>
-
-        <div class="clock-display-wrap">
-          <div class="digital-clock" id="digitalClock">
-            <div class="time-unit hours" id="clockHours">00</div>
-            <div class="time-sep">:</div>
-            <div class="time-unit minutes" id="clockMinutes">00</div>
-            <div class="time-sep">:</div>
-            <div class="time-unit seconds" id="clockSeconds">00</div>
-            <div class="time-period" id="clockPeriod">AM</div>
-          </div>
-
-          <!-- Seconds dynamic progress bar -->
-          <div class="seconds-bar-wrapper" title="Minute Progress">
-            <div class="seconds-bar" id="secondsBar"></div>
-          </div>
-        </div>
-
-        <div class="date-display-wrap">
-          <div class="date-full" id="dateFull">Wednesday, September 16, 2026</div>
-          <div class="timezone-badge" id="timezoneBadge">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="2" y1="12" x2="22" y2="12"></line>
-              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-            </svg>
-            <span id="timezoneText">UTC+8 • Asia/Taipei</span>
-          </div>
-        </div>
-
-        <!-- Day Progress Metrics -->
-        <div class="day-progress-container">
-          <div class="progress-info">
-            <span class="progress-label">Today's Journey</span>
-            <span class="progress-val" id="dayPercentText">0%</span>
-          </div>
-          <div class="progress-track">
-            <div class="progress-fill" id="dayProgressBar"></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Quick Metrics & Daily Context Card -->
-      <section class="card stats-card">
-        <div class="section-title">
-          <h3>Activity & Focus</h3>
-        </div>
-        <div class="stats-grid">
-          <div class="stat-box">
-            <span class="stat-number" id="weekNum">Week 38</span>
-            <span class="stat-desc">Current Week</span>
-          </div>
-          <div class="stat-box">
-            <span class="stat-number" id="dayOfYear">Day 259</span>
-            <span class="stat-desc">Day of Year</span>
-          </div>
-          <div class="stat-box">
-            <span class="stat-number" id="focusStatus">Deep Work</span>
-            <span class="stat-desc">Optimal Phase</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- Social & Links Section -->
-      <section class="card links-card" id="links">
-        <div class="section-title">
-          <h3>Connect & Explore</h3>
-        </div>
-        <div class="social-links-grid">
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="social-item">
-            <div class="social-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          <!-- Action Buttons + Edit Profile Button -->
+          <div class="hero-cta-group">
+            <a href="#projects" class="btn btn-primary" id="btn-hero-projects">
+              <span>View Projects</span>
+              <svg class="btn-arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
               </svg>
-            </div>
-            <div class="social-details">
-              <span class="social-name">GitHub</span>
-              <span class="social-hint">Projects & Repos</span>
-            </div>
-          </a>
+            </a>
+            <a href="#clock" class="btn btn-secondary" id="btn-hero-clock">
+              <span>Explore Live Clock</span>
+              <span class="btn-emoji">⏱️</span>
+            </a>
+            <!-- In-place Profile Editor Trigger -->
+            <button class="btn btn-glass btn-edit-profile" id="btn-open-edit-profile" title="Customize your Name, Title, Bio, and Avatar">
+              <span>✏️ Edit Profile</span>
+            </button>
+          </div>
 
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-item">
-            <div class="social-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-              </svg>
+          <!-- Hero Highlights / Stats -->
+          <div class="hero-stats-grid">
+            <div class="stat-card">
+              <span class="stat-number">5+</span>
+              <span class="stat-label">Years of Craft</span>
             </div>
-            <div class="social-details">
-              <span class="social-name">LinkedIn</span>
-              <span class="social-hint">Professional Network</span>
+            <div class="stat-card">
+              <span class="stat-number">30+</span>
+              <span class="stat-label">Projects Built</span>
             </div>
-          </a>
-
-          <a href="mailto:contact@example.com" class="social-item">
-            <div class="social-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                <polyline points="22,6 12,13 2,6"></polyline>
-              </svg>
+            <div class="stat-card">
+              <span class="stat-number">100%</span>
+              <span class="stat-label">GitHub Pages Ready</span>
             </div>
-            <div class="social-details">
-              <span class="social-name">Email</span>
-              <span class="social-hint">Get in touch directly</span>
-            </div>
-          </a>
-
-          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="social-item">
-            <div class="social-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-              </svg>
-            </div>
-            <div class="social-details">
-              <span class="social-name">X / Twitter</span>
-              <span class="social-hint">Thoughts & Updates</span>
-            </div>
-          </a>
+          </div>
         </div>
-      </section>
-    </main>
 
-    <!-- Footer -->
-    <footer class="site-footer">
-      <div class="footer-content">
-        <p>Crafted with precision • <span id="footerYear">2026</span></p>
-        <div class="footer-tip">Tip: Click on the name or tagline above to customize anytime.</div>
+        <!-- Hero Avatar Showcase -->
+        <div class="hero-visual">
+          <div class="avatar-card-wrapper">
+            <div class="avatar-glow-ring"></div>
+            <div class="avatar-frame">
+              <img src="assets/avatar.jpg" alt="Profile Portrait" class="avatar-image" id="profile-avatar">
+            </div>
+            <!-- Floating interactive badges -->
+            <div class="floating-tag tag-top-right">
+              <span class="tag-icon">⚡</span> Clean Code
+            </div>
+            <div class="floating-tag tag-bottom-left">
+              <span class="tag-icon">🚀</span> Modern Stack
+            </div>
+          </div>
+        </div>
       </div>
-    </footer>
+    </section>
+
+    <!-- REAL-TIME JAVASCRIPT CLOCK SECTION -->
+    <section id="clock" class="section clock-section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-pill">Real-Time Engine</div>
+          <h2 class="section-title">JavaScript <span class="gradient-text">Live Clock</span></h2>
+          <p class="section-subtitle">A high-precision, interactive timekeeper widget with smooth analog dynamics, digital readout, and timezone awareness.</p>
+        </div>
+
+        <div class="clock-dashboard glass-card">
+          <div class="clock-dashboard-header">
+            <div class="clock-location-badge" id="clock-timezone-badge" title="Click to copy Timezone">
+              <span class="location-dot"></span>
+              <span id="clock-timezone-text">Detecting Timezone...</span>
+            </div>
+            <div class="clock-controls">
+              <!-- 12H / 24H Segmented Switcher -->
+              <div class="segmented-control" id="time-format-switch">
+                <button class="seg-btn active" id="seg-24h" data-format="24h">24H</button>
+                <button class="seg-btn" id="seg-12h" data-format="12h">12H</button>
+              </div>
+              <button class="clock-toggle-btn active" id="format-toggle" title="Switch between 12-hour and 24-hour format">
+                <span class="toggle-icon">🔄</span>
+                <span id="format-toggle-label">Mode: 24H</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="clock-main-display">
+            <!-- Left: Analog Clock Dial -->
+            <div class="analog-clock-container">
+              <div class="analog-clock" id="analog-clock">
+                <div class="dial-marker marker-12">12</div>
+                <div class="dial-marker marker-3">3</div>
+                <div class="dial-marker marker-6">6</div>
+                <div class="dial-marker marker-9">9</div>
+                
+                <!-- Clock Hands -->
+                <div class="clock-hand hand-hour" id="hand-hour"></div>
+                <div class="clock-hand hand-minute" id="hand-minute"></div>
+                <div class="clock-hand hand-second" id="hand-second"></div>
+                <div class="clock-center-pin"></div>
+              </div>
+            </div>
+
+            <!-- Right: Futuristic Digital Display -->
+            <div class="digital-clock-container">
+              <div class="digital-time-wrapper">
+                <div class="time-digits" id="digital-time">
+                  <span class="digit-box" id="time-hours">00</span>
+                  <span class="time-colon">:</span>
+                  <span class="digit-box" id="time-minutes">00</span>
+                  <span class="time-colon">:</span>
+                  <span class="digit-box seconds" id="time-seconds">00</span>
+                  <span class="ampm-badge" id="time-ampm">AM</span>
+                </div>
+              </div>
+
+              <!-- Full calendar date & day -->
+              <div class="digital-date-banner">
+                <span class="calendar-icon">📅</span>
+                <span id="calendar-date">Loading date...</span>
+              </div>
+
+              <!-- Working Status Pill -->
+              <div class="work-status-pill" id="work-status">
+                <span class="status-indicator"></span>
+                <span id="status-text">Determining status...</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- BONUS FEATURE: Copy Timestamp Bar -->
+          <div class="timestamp-copy-bar">
+            <div class="ts-label">
+              <span class="ts-icon">📋</span>
+              <span>Quick Timestamp Export:</span>
+            </div>
+            <div class="ts-buttons">
+              <button class="btn-ts" id="btn-copy-iso" title="Copy ISO 8601 Timestamp">
+                <span class="ts-btn-tag">ISO 8601</span>
+                <span class="ts-val" id="val-iso">--</span>
+              </button>
+              <button class="btn-ts" id="btn-copy-epoch" title="Copy Unix Epoch Seconds">
+                <span class="ts-btn-tag">UNIX</span>
+                <span class="ts-val" id="val-epoch">--</span>
+              </button>
+              <button class="btn-ts" id="btn-copy-local" title="Copy Formatted Local Timestamp">
+                <span class="ts-btn-tag">LOCAL</span>
+                <span class="ts-val" id="val-local">--</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- World Clock Highlights (Global Timezone Peek) -->
+          <div class="world-clocks-bar">
+            <div class="world-clock-item" data-timezone="Asia/Shanghai">
+              <span class="wc-flag">🇨🇳</span>
+              <span class="wc-city">Beijing / Shanghai</span>
+              <span class="wc-time" id="wc-shanghai">--:--</span>
+            </div>
+            <div class="world-clock-item" data-timezone="Asia/Tokyo">
+              <span class="wc-flag">🇯🇵</span>
+              <span class="wc-city">Tokyo</span>
+              <span class="wc-time" id="wc-tokyo">--:--</span>
+            </div>
+            <div class="world-clock-item" data-timezone="Europe/London">
+              <span class="wc-flag">🇬🇧</span>
+              <span class="wc-city">London</span>
+              <span class="wc-time" id="wc-london">--:--</span>
+            </div>
+            <div class="world-clock-item" data-timezone="America/New_York">
+              <span class="wc-flag">🇺🇸</span>
+              <span class="wc-city">New York</span>
+              <span class="wc-time" id="wc-newyork">--:--</span>
+            </div>
+            <div class="world-clock-item" data-timezone="America/Los_Angeles">
+              <span class="wc-flag">🇺🇸</span>
+              <span class="wc-city">San Francisco</span>
+              <span class="wc-time" id="wc-sf">--:--</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS SECTION -->
+    <section id="skills" class="section skills-section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-pill">Tech Stack</div>
+          <h2 class="section-title">Skills &amp; <span class="gradient-text">Expertise</span></h2>
+          <p class="section-subtitle">Technologies and methodologies I leverage to create scalable, modern web applications.</p>
+        </div>
+
+        <!-- Skill Filters -->
+        <div class="filter-tabs" id="skill-filters">
+          <button class="filter-tab active" data-filter="all">All Skills</button>
+          <button class="filter-tab" data-filter="frontend">Frontend</button>
+          <button class="filter-tab" data-filter="backend">Backend</button>
+          <button class="filter-tab" data-filter="devops">DevOps &amp; Cloud</button>
+          <button class="filter-tab" data-filter="core">Core &amp; Tools</button>
+        </div>
+
+        <!-- Skills Grid -->
+        <div class="skills-grid" id="skills-grid">
+          <!-- Populated dynamically via script.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS SECTION -->
+    <section id="projects" class="section projects-section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-pill">Portfolio</div>
+          <h2 class="section-title">Featured <span class="gradient-text">Projects</span></h2>
+          <p class="section-subtitle">A showcase of things I've built, open-source initiatives, and interactive web software.</p>
+        </div>
+
+        <!-- Project Filters -->
+        <div class="filter-tabs" id="project-filters">
+          <button class="filter-tab active" data-filter="all">All Work</button>
+          <button class="filter-tab" data-filter="fullstack">Full-Stack</button>
+          <button class="filter-tab" data-filter="frontend">Frontend</button>
+          <button class="filter-tab" data-filter="tools">Tools &amp; APIs</button>
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="projects-grid" id="projects-grid">
+          <!-- Populated dynamically via script.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="section contact-section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-pill">Let's Connect</div>
+          <h2 class="section-title">Get In <span class="gradient-text">Touch</span></h2>
+          <p class="section-subtitle">Whether you have an inquiry, a project proposal, or simply want to chat code, my inbox is open.</p>
+        </div>
+
+        <div class="contact-card-grid">
+          <!-- Contact Info Card -->
+          <div class="contact-info-card glass-card">
+            <h3 class="contact-card-title">Quick Information</h3>
+            <p class="contact-card-desc">
+              Feel free to reach out via email or connect on social platforms. I typically respond within 24 hours.
+            </p>
+
+            <div class="contact-methods-list">
+              <div class="contact-method-item">
+                <div class="method-icon">📧</div>
+                <div class="method-details">
+                  <span class="method-label">Direct Email</span>
+                  <span class="method-value" id="email-address">clairypeng@gmail.com</span>
+                </div>
+                <button class="copy-btn" id="copy-email-btn" title="Copy email address" aria-label="Copy Email">
+                  <span class="copy-icon">📋</span>
+                  <span class="copy-text">Copy</span>
+                </button>
+              </div>
+
+              <div class="contact-method-item">
+                <div class="method-icon">📍</div>
+                <div class="method-details">
+                  <span class="method-label">Location &amp; Remote</span>
+                  <span class="method-value">Worldwide Remote Friendly</span>
+                </div>
+              </div>
+
+              <div class="contact-method-item">
+                <div class="method-icon">🚀</div>
+                <div class="method-details">
+                  <span class="method-label">Deployment Ready</span>
+                  <span class="method-value">GitHub Pages Zero-Config</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Social Links Grid -->
+            <div class="social-links-wrapper">
+              <span class="social-title">Follow &amp; Follow Along:</span>
+              <div class="social-links">
+                <a href="https://github.com/clairypeng-dotcom/0916" target="_blank" rel="noopener noreferrer" class="social-link" title="GitHub Repository">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                  </svg>
+                  <span>GitHub</span>
+                </a>
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-link" title="LinkedIn Profile">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                  </svg>
+                  <span>LinkedIn</span>
+                </a>
+                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="social-link" title="X / Twitter">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  </svg>
+                  <span>X / Twitter</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Message Simulator Form -->
+          <div class="contact-form-card glass-card">
+            <h3 class="contact-card-title">Send a Direct Message</h3>
+            <form id="contact-form" class="contact-form">
+              <div class="form-group">
+                <label for="form-name">Your Name</label>
+                <input type="text" id="form-name" class="form-control" placeholder="Jane Doe" required>
+              </div>
+
+              <div class="form-group">
+                <label for="form-email">Your Email</label>
+                <input type="email" id="form-email" class="form-control" placeholder="jane@example.com" required>
+              </div>
+
+              <div class="form-group">
+                <label for="form-subject">Subject</label>
+                <input type="text" id="form-subject" class="form-control" placeholder="Project collaboration / Say hello" required>
+              </div>
+
+              <div class="form-group">
+                <label for="form-message">Message</label>
+                <textarea id="form-message" class="form-control" rows="4" placeholder="Hi Pengjie, I saw your portfolio and would like to talk about..." required></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-submit" id="btn-submit-form">
+                <span>Send Message</span>
+                <span class="btn-emoji">🚀</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- BONUS FEATURE: In-Place Profile Editor Modal -->
+  <div class="modal-backdrop" id="profile-modal" aria-hidden="true">
+    <div class="modal-card glass-card">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-icon">✏️</span>
+          <h3 class="modal-title">Customize Personal Profile</h3>
+        </div>
+        <button class="modal-close-btn" id="btn-close-profile-modal" aria-label="Close modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-desc">
+          Edit your profile information in real time. Changes are saved to <strong>localStorage</strong> and persist on your device.
+        </p>
+
+        <form id="profile-edit-form" class="profile-edit-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="input-profile-name">Your Name</label>
+              <input type="text" id="input-profile-name" class="form-control" required placeholder="Pengjie">
+            </div>
+
+            <div class="form-group">
+              <label for="input-profile-email">Public Email</label>
+              <input type="email" id="input-profile-email" class="form-control" required placeholder="pengjie.dev@example.com">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="input-profile-role">Primary Professional Role / Subtitle</label>
+            <input type="text" id="input-profile-role" class="form-control" required placeholder="Full-Stack Developer">
+          </div>
+
+          <div class="form-group">
+            <label for="input-profile-bio">Bio &amp; About Summary</label>
+            <textarea id="input-profile-bio" class="form-control" rows="3" required placeholder="Passionate software engineer..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="input-profile-avatar">Avatar Image URL</label>
+            <input type="text" id="input-profile-avatar" class="form-control" placeholder="assets/avatar.jpg">
+          </div>
+
+          <!-- Avatar Quick Presets -->
+          <div class="avatar-presets-wrap">
+            <span class="presets-label">Or Pick a Preset Avatar:</span>
+            <div class="avatar-presets">
+              <button type="button" class="preset-avatar-btn" data-avatar="assets/avatar.jpg" title="Current Default Avatar">
+                <img src="assets/avatar.jpg" alt="Default">
+              </button>
+              <button type="button" class="preset-avatar-btn" data-avatar="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" title="Minimalist Creator">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Preset 1">
+              </button>
+              <button type="button" class="preset-avatar-btn" data-avatar="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=400&q=80" title="Modern Technologist">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=400&q=80" alt="Preset 2">
+              </button>
+              <button type="button" class="preset-avatar-btn" data-avatar="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=400&q=80" title="Senior Engineer">
+                <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=400&q=80" alt="Preset 3">
+              </button>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" id="btn-reset-profile">Reset to Default</button>
+            <div class="modal-actions-right">
+              <button type="button" class="btn btn-glass" id="btn-cancel-profile">Cancel</button>
+              <button type="submit" class="btn btn-primary" id="btn-save-profile">💾 Save to localStorage</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 
-  <!-- Interactive Toast Notification for Copy/Actions -->
-  <div class="toast" id="toast" role="alert" aria-live="polite">
-    <div class="toast-icon">✓</div>
-    <div class="toast-text" id="toastText">Contact info copied!</div>
-  </div>
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-left">
+        <div class="footer-logo">&lt;/&gt; <span id="footer-brand-name">彭絜</span></div>
+        <p class="footer-tagline">Crafted with precision &amp; modern web standards. Fully responsive.</p>
+      </div>
 
-  <script src="app.js?v=20260916-2"></script>
+      <div class="footer-center">
+        <div class="github-pages-tag">
+          <span class="badge-icon">🌐</span> Hosted on GitHub Pages
+        </div>
+      </div>
+
+      <div class="footer-right">
+        <div class="copyright-text">
+          &copy; <span id="current-year">2026</span> <span id="copyright-name">彭絜</span>. All rights reserved.
+        </div>
+        <a href="#about" class="back-to-top-btn" id="back-to-top" title="Back to top" aria-label="Back to top">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="18 15 12 9 6 15"></polyline>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification element -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- JavaScript Application Bundle -->
+  <script src="script.js"></script>
 </body>
 </html>
