@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Space | Live Clock & Portfolio</title>
+  <meta name="description" content="Personal space featuring real-time clock, personalized greeting, live date, and customizable profile.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="violet">
+  <!-- Background glowing ambient mesh elements -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="ambient-glow glow-3"></div>
+
+  <div class="app-container">
+    <!-- Top Navigation / Control Bar -->
+    <header class="top-nav">
+      <div class="brand">
+        <div class="brand-badge">⚡ Live Hub</div>
+      </div>
+      <div class="header-controls">
+        <div class="theme-picker" title="Select Accent Theme" id="themePicker">
+          <button class="theme-dot violet active" data-color="violet" aria-label="Violet Theme"></button>
+          <button class="theme-dot cyan" data-color="cyan" aria-label="Cyan Theme"></button>
+          <button class="theme-dot emerald" data-color="emerald" aria-label="Emerald Theme"></button>
+          <button class="theme-dot amber" data-color="amber" aria-label="Amber Theme"></button>
+        </div>
+        <button class="btn-time-format" id="formatToggle" title="Toggle 12h / 24h format">
+          <span class="format-label" id="formatLabel">24H</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="dashboard-grid">
+      <!-- Profile & Identity Card -->
+      <section class="card profile-card" id="profileCard">
+        <div class="avatar-wrapper">
+          <div class="avatar-ring"></div>
+          <div class="avatar-content">
+            <span class="avatar-initials" id="avatarInitials">U</span>
+          </div>
+          <div class="status-indicator-dot" title="Online & Active"></div>
+        </div>
+
+        <div class="profile-info">
+          <div class="greeting-badge" id="greetingBadge">
+            <span class="greeting-icon" id="greetingIcon">👋</span>
+            <span class="greeting-text" id="greetingText">Good Day</span>
+          </div>
+
+          <div class="name-container">
+            <h1 class="user-name" id="userName" contenteditable="true" spellcheck="false" title="Click to edit your name">Your Name</h1>
+            <button class="edit-name-btn" id="editNameBtn" title="Click to edit your name" aria-label="Edit Name">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+            </button>
+          </div>
+          
+          <p class="user-tagline" id="userTagline" contenteditable="true" spellcheck="false" title="Click to edit your title">
+            Creator • Developer • Thinker
+          </p>
+
+          <div class="status-pill">
+            <span class="pulse-dot"></span>
+            <span class="status-message">Available for projects & creative ideas</span>
+          </div>
+        </div>
+
+        <div class="card-footer-actions">
+          <button class="action-btn primary" id="copyEmailBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span id="copyEmailText">Copy Contact</span>
+          </button>
+          <a href="#links" class="action-btn secondary" id="quickLinkBtn">
+            <span>Explore Links</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="7" y1="17" x2="17" y2="7"></line>
+              <polyline points="7 7 17 7 17 17"></polyline>
+            </svg>
+          </a>
+        </div>
+      </section>
+
+      <!-- Real-Time Clock Card -->
+      <section class="card clock-card" id="clockCard">
+        <div class="clock-header">
+          <div class="clock-label">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span>Live Local Time</span>
+          </div>
+          <div class="live-pill">
+            <span class="live-beacon"></span>
+            <span>REAL-TIME</span>
+          </div>
+        </div>
+
+        <div class="clock-display-wrap">
+          <div class="digital-clock" id="digitalClock">
+            <div class="time-unit hours" id="clockHours">00</div>
+            <div class="time-sep">:</div>
+            <div class="time-unit minutes" id="clockMinutes">00</div>
+            <div class="time-sep">:</div>
+            <div class="time-unit seconds" id="clockSeconds">00</div>
+            <div class="time-period" id="clockPeriod">AM</div>
+          </div>
+
+          <!-- Seconds dynamic progress bar -->
+          <div class="seconds-bar-wrapper" title="Minute Progress">
+            <div class="seconds-bar" id="secondsBar"></div>
+          </div>
+        </div>
+
+        <div class="date-display-wrap">
+          <div class="date-full" id="dateFull">Wednesday, September 16, 2026</div>
+          <div class="timezone-badge" id="timezoneBadge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+            <span id="timezoneText">UTC+8 • Asia/Taipei</span>
+          </div>
+        </div>
+
+        <!-- Day Progress Metrics -->
+        <div class="day-progress-container">
+          <div class="progress-info">
+            <span class="progress-label">Today's Journey</span>
+            <span class="progress-val" id="dayPercentText">0%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="dayProgressBar"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quick Metrics & Daily Context Card -->
+      <section class="card stats-card">
+        <div class="section-title">
+          <h3>Activity & Focus</h3>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <span class="stat-number" id="weekNum">Week 38</span>
+            <span class="stat-desc">Current Week</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-number" id="dayOfYear">Day 259</span>
+            <span class="stat-desc">Day of Year</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-number" id="focusStatus">Deep Work</span>
+            <span class="stat-desc">Optimal Phase</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Social & Links Section -->
+      <section class="card links-card" id="links">
+        <div class="section-title">
+          <h3>Connect & Explore</h3>
+        </div>
+        <div class="social-links-grid">
+          <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="social-item">
+            <div class="social-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+            </div>
+            <div class="social-details">
+              <span class="social-name">GitHub</span>
+              <span class="social-hint">Projects & Repos</span>
+            </div>
+          </a>
+
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-item">
+            <div class="social-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+              </svg>
+            </div>
+            <div class="social-details">
+              <span class="social-name">LinkedIn</span>
+              <span class="social-hint">Professional Network</span>
+            </div>
+          </a>
+
+          <a href="mailto:contact@example.com" class="social-item">
+            <div class="social-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </div>
+            <div class="social-details">
+              <span class="social-name">Email</span>
+              <span class="social-hint">Get in touch directly</span>
+            </div>
+          </a>
+
+          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="social-item">
+            <div class="social-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </div>
+            <div class="social-details">
+              <span class="social-name">X / Twitter</span>
+              <span class="social-hint">Thoughts & Updates</span>
+            </div>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="footer-content">
+        <p>Crafted with precision • <span id="footerYear">2026</span></p>
+        <div class="footer-tip">Tip: Click on the name or tagline above to customize anytime.</div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Interactive Toast Notification for Copy/Actions -->
+  <div class="toast" id="toast" role="alert" aria-live="polite">
+    <div class="toast-icon">✓</div>
+    <div class="toast-text" id="toastText">Contact info copied!</div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
