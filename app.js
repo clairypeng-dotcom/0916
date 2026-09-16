@@ -6,11 +6,14 @@
   'use strict';
 
   // --- State & Settings ---
+  const savedName = localStorage.getItem('user_profile_name');
+  const initialName = (!savedName || savedName === 'Alex Morgan' || savedName === 'Your Name') ? '彭絜' : savedName;
+
   const state = {
     is24Hour: localStorage.getItem('pref_format_24h') === 'true',
     theme: localStorage.getItem('pref_theme') || 'violet',
-    name: localStorage.getItem('user_profile_name') || 'Alex Morgan',
-    tagline: localStorage.getItem('user_profile_tagline') || 'Creative Developer • Problem Solver'
+    name: initialName,
+    tagline: localStorage.getItem('user_profile_tagline') || 'Creator • Developer • Thinker'
   };
 
   // --- DOM Elements ---
@@ -59,12 +62,13 @@
   // --- Update Avatar Initials ---
   function updateAvatarInitials(name) {
     if (!name || !name.trim()) {
-      el.avatarInitials.textContent = '✦';
+      el.avatarInitials.textContent = '彭';
       return;
     }
-    const parts = name.trim().split(/\s+/);
+    const clean = name.trim();
+    const parts = clean.split(/\s+/);
     if (parts.length === 1) {
-      el.avatarInitials.textContent = parts[0].substring(0, 2).toUpperCase();
+      el.avatarInitials.textContent = parts[0].substring(0, 2);
     } else {
       el.avatarInitials.textContent = (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
     }
@@ -212,7 +216,7 @@
 
     // Editable Name
     el.userName.addEventListener('blur', () => {
-      const cleanName = el.userName.innerText.trim() || 'Alex Morgan';
+      const cleanName = el.userName.innerText.trim() || '彭絜';
       el.userName.innerText = cleanName;
       state.name = cleanName;
       localStorage.setItem('user_profile_name', cleanName);
