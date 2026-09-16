@@ -1,6 +1,7 @@
 # Personal Space & Live Clock
 
-🌐 **線上即時網站（Live Demo）**：[file:///C:/Users/user/Desktop/11111/index.html)
+🌐 **線上即時網站（Live Demo）**：[
+file:///C:/Users/user/Desktop/11111/index.html](https://clairypeng-dotcom.github.io/0916/))
 
 這是個人專屬空間與即時時鐘專案，包含即時動態時間、問候語、主題色彩切換與個性化個人資料卡片。
 
