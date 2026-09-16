@@ -1,4 +1,4 @@
-https://clairypeng-dotcom.github.io/0916/https://clairypeng-dotcom.github.io/0916/
+https://clairypeng-dotcom.github.io/0916/
 
 [http://localhost:8080
 ](https://clairypeng-dotcom.github.io/0916/)# 🚀 Pengjie - Modern Personal Portfolio & Real-Time Clock
