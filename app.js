@@ -6,13 +6,16 @@
   'use strict';
 
   // --- State & Settings ---
-  const savedName = localStorage.getItem('user_profile_name');
-  const initialName = (!savedName || savedName === 'Alex Morgan' || savedName === 'Your Name') ? '彭絜' : savedName;
+  let savedName = localStorage.getItem('user_profile_name');
+  if (!savedName || savedName === 'Alex Morgan' || savedName === 'Your Name') {
+    savedName = '彭絜';
+    try { localStorage.setItem('user_profile_name', '彭絜'); } catch (e) {}
+  }
 
   const state = {
     is24Hour: localStorage.getItem('pref_format_24h') === 'true',
     theme: localStorage.getItem('pref_theme') || 'violet',
-    name: initialName,
+    name: savedName,
     tagline: localStorage.getItem('user_profile_tagline') || 'Creator • Developer • Thinker'
   };
 
@@ -270,6 +273,13 @@
 
   // --- Initialization ---
   function init() {
+    let currentStored = localStorage.getItem('user_profile_name');
+    if (!currentStored || currentStored === 'Alex Morgan' || currentStored === 'Your Name') {
+      currentStored = '彭絜';
+      try { localStorage.setItem('user_profile_name', '彭絜'); } catch (e) {}
+    }
+    state.name = currentStored;
+
     // Apply saved state
     applyTheme(state.theme);
     el.formatLabel.textContent = state.is24Hour ? '24H' : '12H';
